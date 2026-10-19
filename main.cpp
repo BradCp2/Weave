@@ -1,7 +1,10 @@
 #include <iostream>
+#include <vector>
+#include <string>
 #include "src/WeaveApp.h"
 
-int main() {
+int main(int argc, char* argv[]) {
+    std::vector<std::string> tokens(argv, argv + argc);
     weave::WeaveApp weaveApp;
-    return 0;
+    return weaveApp.run(tokens);
 }

@@ -5,20 +5,23 @@
 #ifndef WEAVE2_COMMANDDISPATCHER_H
 #define WEAVE2_COMMANDDISPATCHER_H
 
-#include "workers/WorkerManager.h"
+#include "data/ParsedCommand.h"
+#include "commands/data/CommandRegistry.h"
+#include "commands/ICommand.h"
+#include "commands/data/CommandContext.h"
 
 namespace weave::cli {
     class CommandDispatcher {
-        public:
-        CommandDispatcher(workers::WorkerManager& workerManager) : workerManager(workerManager)
-        {
-            /*
-             * TODO Implement dispatcher logic.
-             */
-        }
+    public:
+        explicit CommandDispatcher(const commands::data::CommandRegistry &commandRegistry);
+
+        int dispatch(
+            const data::parsedCommand &parsedCommand,
+            CommandContext &commandContext
+        ) const;
 
     private:
-        workers::WorkerManager& workerManager;
+        const commands::data::CommandRegistry &commandRegistry;
     };
 } // cli
 

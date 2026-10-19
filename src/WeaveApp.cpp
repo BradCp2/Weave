@@ -4,29 +4,55 @@
 
 #include "WeaveApp.h"
 
+#include "commands/TestCommand.h"
+
 #include <iostream>
 #include <ostream>
+#include <memory>
+
+#include "cli/CommandDispatcher.h"
 
 weave::WeaveApp::WeaveApp() :
-    eventQueue_(),
-    renderer_(eventQueue_),
     workerManager_(eventQueue_),
-    parser_(),
-    dispatcher_(workerManager_)
+    renderer_(eventQueue_)
 {
-    /*
-     * TODO add constructor initialiser list to call implemented work classes.
-     */
-    WeaveApp::registerCommands();
-    std::cout << "Initializing WeaveApp ..." << std::endl;
+    registerCommands();
+    dispatcher_ = std::make_unique<cli::CommandDispatcher>(commandRegistry_);
+    context_ = std::make_unique<CommandContext>(
+        CommandContext{
+            .repository = repository_,
+            .workerManager = workerManager_,
+            .renderer = renderer_
+        }
+    );
 }
 
 weave::WeaveApp::~WeaveApp() = default;
 
 void weave::WeaveApp::registerCommands()
 {
-    /*
-     * TODO register implemented commands to `dispatcher_`
-     */
-    std::cout << "WeaveApp::registerCommands" << std::endl;
+    commandRegistry_.registerCommand(std::make_unique<TestCommand>());
+}
+
+int weave::WeaveApp::run(const std::vector<std::string>& tokens)
+{
+    parser_.parse(tokens);
+    temporary(); // DELETE AFTER DEBUGGING
+
+    if (!parser_.getParsedCommand().validFlag) { std::cout << "Terminating..." << std::endl; return 1;}
+
+    return dispatcher_->dispatch(parser_.getParsedCommand(), *context_);
+}
+
+void weave::WeaveApp::temporary()
+{
+    std::cout << "inv : " << parser_.getParsedCommand().invocationPath << std::endl;
+    std::cout << "pgm : " << parser_.getParsedCommand().programPath << std::endl;
+    std::cout << "cmd : " <<parser_.getParsedCommand().command << std::endl;
+    for (std::string p : parser_.getParsedCommand().arguments) {
+        std::cout << "arg : " << p << std::endl;
+    }
+    for (auto f : parser_.getParsedCommand().flags) {
+        std::cout << "flg : " << f.first << " | arg? : " << f.second << std::endl;
+    }
 }
