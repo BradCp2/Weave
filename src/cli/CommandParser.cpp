@@ -62,7 +62,7 @@ namespace weave::cli {
         _parsedCommand.validFlag = true;
     }
 
-    data::parsedCommand &CommandParser::getParsedCommand()
+    const data::parsedCommand& CommandParser::getParsedCommand() const
     {
         return _parsedCommand;
     }

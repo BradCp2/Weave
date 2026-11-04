@@ -17,7 +17,7 @@ namespace weave::cli {
 
     int CommandDispatcher::dispatch(
         const data::parsedCommand &parsedCommand,
-        CommandContext &commandContext
+        commands::data::CommandContext &commandContext
     ) const {
         commands::data::ICommand *handler = commandRegistry.findCommand(parsedCommand.command);
 
@@ -27,6 +27,6 @@ namespace weave::cli {
             return 1;
         }
 
-        return handler->execute(parsedCommand, commandContext);
+        return handler->tryExecute(parsedCommand, commandContext);
     }
 } // cli

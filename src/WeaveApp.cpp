@@ -18,8 +18,10 @@ weave::WeaveApp::WeaveApp() :
 {
     registerCommands();
     dispatcher_ = std::make_unique<cli::CommandDispatcher>(commandRegistry_);
-    context_ = std::make_unique<CommandContext>(
-        CommandContext{
+    context_ = std::make_unique<commands::data::CommandContext>
+    (
+        commands::data::CommandContext
+        {
             .repository = repository_,
             .workerManager = workerManager_,
             .renderer = renderer_
@@ -31,7 +33,7 @@ weave::WeaveApp::~WeaveApp() = default;
 
 void weave::WeaveApp::registerCommands()
 {
-    commandRegistry_.registerCommand(std::make_unique<TestCommand>());
+    commandRegistry_.registerCommand(std::make_unique<commands::TestCommand>());
 }
 
 int weave::WeaveApp::run(const std::vector<std::string>& tokens)

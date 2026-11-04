@@ -6,14 +6,15 @@
 
 #include <iostream>
 
-std::string TestCommand::name() const {
+std::string weave::commands::TestCommand::name() const {
     return "test";
 }
 
-int TestCommand::execute(
-    const weave::cli::data::parsedCommand &parsedCommand,
-    CommandContext &context
-) {
-    std::cout << "Executing test command: " << parsedCommand.command << std::endl;
-    return 0;
+bool weave::commands::TestCommand::validate() const {
+    return true;
+}
+
+int weave::commands::TestCommand::execute() {
+    std::cout << "TestCommand::execute()" << std::endl;
+    return 1;
 }

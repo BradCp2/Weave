@@ -4,14 +4,19 @@
 
 #ifndef WEAVE2_COMMANDCONTEXT_H
 #define WEAVE2_COMMANDCONTEXT_H
+
 #include "cli/ClIRenderer.h"
 #include "core/Repository.h"
 #include "workers/WorkerManager.h"
 
-struct CommandContext {
+namespace weave::commands::data
+{
+struct CommandContext
+    {
     weave::core::Repository& repository;
     weave::workers::WorkerManager& workerManager;
     weave::cli::CLIRenderer& renderer;
-};
+    };
+}
 
 #endif //WEAVE2_COMMANDCONTEXT_H

@@ -50,6 +50,7 @@ cmake_install.cmake
 Makefile
 install_manifest.txt
 compile_commands.json
+.idea
 
 # Temporary files
 *.tmp
@@ -66,3 +67,10 @@ vcpkg_installed/
 # test output & cache
 Testing/
 .cache/
+
+#cmake output files
+cmake-build-debug-coverage
+cmake-build-debug-winlibs-ucrt64
+
+#Doxyfile content
+/docs/
